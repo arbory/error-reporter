@@ -11,6 +11,6 @@
     "minimum-stability": "dev",
     "require": {},
     "autoload": {
-        "Holystix\\ErrorReporter": "src/"
+        "Arbory\\ErrorReporter": "src/"
     }
 }

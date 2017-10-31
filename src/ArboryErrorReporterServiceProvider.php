@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Providers;
+namespace Arbory\ErrorReporter;
 
 use Illuminate\Support\ServiceProvider;
 
-class ArboryErrorReporterServiceProvider extends ServiceProvider
+class ErrorReporterServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
