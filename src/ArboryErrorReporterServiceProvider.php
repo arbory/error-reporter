@@ -13,7 +13,7 @@ class ErrorReporterServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        require __DIR__ . '/Exceptions/Handler.php';
     }
 
     /**
