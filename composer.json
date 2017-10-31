@@ -1,0 +1,16 @@
+{
+    "name": "holystix/error-reporter",
+    "description": "Reporting errors over HTTP to remote address",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Janis Osenieks",
+            "email": "janis.osenieks@cube.lv"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "Holystix\\ErrorReporter": "src/"
+    }
+}
