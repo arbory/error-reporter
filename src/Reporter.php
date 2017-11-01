@@ -25,11 +25,11 @@ class Reporter
      * @var array
      */
     protected $superGlobals = [
-        'GET',
-        'POST',
-        'COOKIE',
-        'SESSION',
-        'FILES'
+        'get',
+        'post',
+        'cookie',
+        'session',
+        'files'
     ];
 
     /**
@@ -49,9 +49,9 @@ class Reporter
     {
         if ($this->isReportingEnabled()) {
             $this->exception = $exception;
+            $globalParams    = $this->getGlobalParams();
             $exceptionParams = $this->getExceptionParams();
             $requestParams   = $this->getRequestParams();
-            $globalParams    = $this->getGlobalParams();
             $envParams       = $this->getEnvParams();
             $this->send(
                 array_merge($exceptionParams, $requestParams, $globalParams, $envParams)
