@@ -67,7 +67,7 @@ class Reporter
      * @param string $identifier
      * @return string
      */
-    protected function removeSensitiveDataFromString(string $cookieString, string $identifier)
+    protected function removeSensitiveDataFromString($cookieString, $identifier)
     {
         $pattern = '/(?<=\b' . $identifier . '=)(.+)(\b)/U';
         return preg_replace($pattern, $this->removedValueNotice, $cookieString);
