@@ -24,5 +24,12 @@ class ErrorReporterServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__ . '/config/error-reporter.php', 'error-reporter');
+        $this->app->singleton(Reporter::class, function ($app) {
+
+            $config   = config('error-reporter');
+            $reporter = new Reporter($config);
+
+            return $reporter;
+        });
     }
 }
