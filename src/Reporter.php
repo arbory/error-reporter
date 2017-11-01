@@ -99,8 +99,60 @@ class Reporter
             $key          = 'data_' . $global;
             $var          = '_' . strtoupper($global);
             $value        = array_get($GLOBALS, $var);
-            $return[$key] = $value;
+            $return[$key] = $this->removeSensitiveValues($value);
         }
         return $return;
+    }
+
+    protected function removeSensitiveValues($value)
+    {
+        // at first remove all array values with sensitive keys
+        if (is_array($value)) {
+            $value = self::removeSensitiveArrayValues($value);
+        }
+        return $value;
+    }
+
+    protected function removeSensitiveArrayValues($array)
+    {
+        if (is_array($array)) {
+            foreach ($array as $key => $value) {
+                if (self::isSensitiveArrayKey($key)) {
+                    $array[$key] = $this->removedValueNotice;
+                    continue;
+                }
+
+                if (is_array($value)) {
+                    $array[$key] = self::removeSensitiveArrayValues($value);
+                }
+            }
+        }
+
+        return $array;
+    }
+
+    protected function isSensitiveArrayKey($key)
+    {
+        $patterns = $this->listSensitiveKeyPatterns();
+
+        foreach ($patterns as $pattern) {
+            if (preg_match('/^' . $pattern . '$/i', $key)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected function listSensitiveKeyPatterns()
+    {
+        $patterns = [
+            '(\S*)password(\S*).*'
+        ];
+
+        if (!empty($this->sessionCookieName)) {
+            $patterns[] = $this->sessionCookieName;
+        }
+
+        return $patterns;
     }
 }
