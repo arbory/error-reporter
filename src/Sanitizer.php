@@ -93,9 +93,19 @@ class Sanitizer
 
     /**
      * @param array $array
-     * @return array
+     * @return string
      */
     protected function sanitizeArray($array)
+    {
+        $array = $this->sanitizeArrayValues($array);
+        return $this->sanitizeString(print_r($array, true));
+    }
+
+    /**
+     * @param array $array
+     * @return array
+     */
+    protected function sanitizeArrayValues($array)
     {
         if (!is_array($array)) {
             return $array;
