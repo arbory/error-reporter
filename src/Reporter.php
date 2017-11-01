@@ -6,20 +6,19 @@ use Exception;
 
 class Reporter
 {
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $config;
 
-    /** @var Exception */
+    /**
+     * @var Exception
+     */
     protected $exception;
 
-    protected $removedValueNotice = 'value_removed_by_leafError';
-
-    /** @var string */
-    protected $sessionCookieName;
-
-    protected $xsrfCookieName = 'XSRF-TOKEN';
-
-    /** @var Sanitizer */
+    /**
+     * @var Sanitizer
+     */
     protected $sanitizer;
 
     protected $superGlobals = [
@@ -32,9 +31,8 @@ class Reporter
 
     public function __construct($config)
     {
-        $this->config            = $config;
-        $this->sanitizer         = resolve(Sanitizer::class);
-        $this->sessionCookieName = config('session.cookie');
+        $this->config    = $config;
+        $this->sanitizer = resolve(Sanitizer::class);
     }
 
     public function reportException(Exception $exception)
@@ -69,12 +67,9 @@ class Reporter
             'http_referer'      => array_get($_SERVER, 'HTTP_REFERER'),
             'user_agent'        => array_get($_SERVER, 'HTTP_REFERER'),
             'http_content_type' => array_get($_SERVER, 'CONTENT_TYPE'),
-            'http_cookie'       => $this->removeSensitiveDataFromString(
-                array_get($_SERVER, 'HTTP_COOKIE'), [
-                $this->sessionCookieName,
-                $this->xsrfCookieName
-            ])
+            'http_cookie'       => $this->sanitizer->sanitizeString(array_get($_SERVER, 'HTTP_COOKIE'))
         ];
+        
         return $data;
     }
 
@@ -85,15 +80,6 @@ class Reporter
      */
     protected function removeSensitiveDataFromString($string, $identifiers)
     {
-        if (is_string($identifiers)) {
-            $identifiers = [$identifiers];
-        }
-
-        $patterns = array_map(function ($identifier) {
-            return '/(?<=\b' . $identifier . '=)(.+)(\b)/U';
-        }, $identifiers);
-
-        return preg_replace($patterns, $this->removedValueNotice, $string);
     }
 
     protected function getGlobalParamsArray()

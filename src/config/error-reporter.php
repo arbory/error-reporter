@@ -5,6 +5,9 @@ return [
         'api_key'              => null
     ],
     'sanitizer' => [
-        'foo' => 'bar'
+        'sensitive_string_identifiers' => [
+            'XSRF-TOKEN',
+            config('session.cookie')
+        ]
     ]
 ];
