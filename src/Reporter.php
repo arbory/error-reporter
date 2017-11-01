@@ -21,6 +21,9 @@ class Reporter
      */
     protected $sanitizer;
 
+    /**
+     * @var array
+     */
     protected $superGlobals = [
         'GET',
         'POST',
@@ -29,12 +32,19 @@ class Reporter
         'FILES'
     ];
 
+    /**
+     * Reporter constructor.
+     * @param array $config
+     */
     public function __construct($config)
     {
         $this->config    = $config;
         $this->sanitizer = resolve(Sanitizer::class);
     }
 
+    /**
+     * @param Exception $exception
+     */
     public function reportException(Exception $exception)
     {
         $this->exception = $exception;
@@ -44,7 +54,10 @@ class Reporter
         dd($globalParams);
     }
 
-    protected function getExceptionParamsArray()
+    /**
+     * @return array
+     */
+    protected function getExceptionParams()
     {
         return [
             'message'    => $this->exception->getMessage(),
@@ -55,7 +68,10 @@ class Reporter
         ];
     }
 
-    protected function getRequestParamsArray()
+    /**
+     * @return array
+     */
+    protected function getRequestParams()
     {
         $data = [
             'user_ip'           => array_get($_SERVER, 'REMOTE_ADDR'),
@@ -74,15 +90,9 @@ class Reporter
     }
 
     /**
-     * @param string       $string
-     * @param string|array $identifiers
-     * @return string
+     * @return array
      */
-    protected function removeSensitiveDataFromString($string, $identifiers)
-    {
-    }
-
-    protected function getGlobalParamsArray()
+    protected function getGlobalParams()
     {
         $return = [];
         foreach ($this->superGlobals as $global) {
