@@ -14,9 +14,13 @@ class Reporter
 
     protected $removedValueNotice = 'value_removed_by_leafError';
 
+    /** @var string */
+    protected $sessionCookieKey;
+
     public function __construct($config)
     {
-        $this->config = $config;
+        $this->config           = $config;
+        $this->sessionCookieKey = config('session.cookie');
     }
 
     public function reportException(Exception $exception)
@@ -24,6 +28,7 @@ class Reporter
         $this->exception = $exception;
         $exceptionParams = $this->getExceptionParamsArray();
         $requestParams   = $this->getRequestParamsArray();
+        dd($requestParams);
     }
 
     protected function getExceptionParamsArray()
@@ -53,12 +58,13 @@ class Reporter
         ];
 
         $data['http_cookie'] = $this->removeSessionCookie($data['http_cookie']);
+        dd($data['http_cookie']);
+        return $data;
     }
 
     protected function removeSessionCookie($cookieString)
     {
-        $sessionIdVar = 'laravel_session';
-        $pattern      = '/(?<=\b' . $sessionIdVar . '=)(.+)(\b)/U';
+        $pattern = '/(?<=\b' . $this->sessionCookieKey . '=)(.+)(\b)/U';
         return preg_replace($pattern, $this->removedValueNotice, $cookieString);
     }
 }
