@@ -53,6 +53,7 @@ class Reporter
             $requestParams   = $this->getRequestParams();
             $globalParams    = $this->getGlobalParams();
             $envParams       = $this->getEnvParams();
+            dd($envParams);
         }
     }
 
@@ -110,7 +111,8 @@ class Reporter
     protected function getEnvParams()
     {
         return [
-            'environment' => getenv('APP_ENV')
+            'environment' => getenv('APP_ENV'),
+            'branch'      => $this->getGitBranch()
         ];
     }
 
@@ -122,5 +124,12 @@ class Reporter
     protected function isReportingEnabled()
     {
         return (bool)array_get($this->config, 'enabled', false);
+    }
+
+    protected function getGitBranch()
+    {
+        $basePath       = base_path();
+        $branchFilePath = $basePath . '/' . 'BRANCH';
+        return file_exists($branchFilePath) && is_readable($branchFilePath) ? trim(file_get_contents($branchFilePath)) : null;
     }
 }
