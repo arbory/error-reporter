@@ -52,7 +52,7 @@ class Reporter
             $exceptionParams = $this->getExceptionParams();
             $requestParams   = $this->getRequestParams();
             $globalParams    = $this->getGlobalParams();
-            dd($exceptionParams);
+            $envParams       = $this->getEnvParams();
         }
     }
 
@@ -105,6 +105,13 @@ class Reporter
             $return[$key] = $this->sanitizer->sanitize($value);
         }
         return $return;
+    }
+
+    protected function getEnvParams()
+    {
+        return [
+            'environment' => getenv('APP_ENV')
+        ];
     }
 
     protected function shouldReportStackTrace()
