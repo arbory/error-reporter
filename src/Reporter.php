@@ -14,4 +14,7 @@ class Reporter
         $this->config = $config;
     }
 
+    public function reportException(Exception $exception)
+    {
+    }
 }
