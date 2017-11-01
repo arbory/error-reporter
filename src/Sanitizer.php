@@ -3,6 +3,8 @@
 namespace Arbory\ErrorReporter;
 
 use Exception;
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\Jsonable;
 
 class Sanitizer
 {
@@ -111,6 +113,15 @@ class Sanitizer
     {
         if (is_array($array)) {
             foreach ($array as $key => $value) {
+
+                if (is_object($value)) {
+                    if ($value instanceof \Closure) {
+                        $value = null;
+                    }
+                    $value       = (array)$value;
+                    $array[$key] = $value;
+                }
+
                 if ($this->isSensitiveArrayKey($key)) {
                     $array[$key] = $this->getRemovedValueNotification();
                     continue;
