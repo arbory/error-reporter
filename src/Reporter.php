@@ -51,7 +51,7 @@ class Reporter
         $exceptionParams = $this->getExceptionParams();
         $requestParams   = $this->getRequestParams();
         $globalParams    = $this->getGlobalParams();
-        dd($globalParams);
+        dd($requestParams);
     }
 
     /**
@@ -83,7 +83,8 @@ class Reporter
             'http_referer'      => array_get($_SERVER, 'HTTP_REFERER'),
             'user_agent'        => array_get($_SERVER, 'HTTP_REFERER'),
             'http_content_type' => array_get($_SERVER, 'CONTENT_TYPE'),
-            'http_cookie'       => $this->sanitizer->sanitize(array_get($_SERVER, 'HTTP_COOKIE'))
+            'http_cookie'       => $this->sanitizer->sanitize(array_get($_SERVER, 'HTTP_COOKIE')),
+            'argv'              => $this->sanitizer->sanitize(array_get($_SERVER, 'argv'))
         ];
 
         return $data;
