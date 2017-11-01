@@ -24,6 +24,10 @@ class Sanitizer
      */
     protected $sensitiveKeyPatterns;
 
+    /**
+     * Sanitizer constructor.
+     * @param array $config
+     */
     public function __construct($config)
     {
         $this->config = $config;
@@ -38,6 +42,9 @@ class Sanitizer
         }, $identifiers);
     }
 
+    /**
+     * @return array
+     */
     protected function getSensitiveStringPatterns()
     {
         if (!isset($this->sensitiveStringPatterns)) {
@@ -46,6 +53,9 @@ class Sanitizer
         return $this->sensitiveStringPatterns;
     }
 
+    /**
+     * @return string
+     */
     protected function getRemovedValueNotification()
     {
         if (!$this->removeValueNotification) {
@@ -54,6 +64,10 @@ class Sanitizer
         return $this->removeValueNotification;
     }
 
+    /**
+     * @param array|string $value
+     * @return array|string
+     */
     public function sanitize($value)
     {
         if (is_string($value)) {
@@ -65,7 +79,7 @@ class Sanitizer
     }
 
     /**
-     * @param $string
+     * @param string $string
      * @return string
      */
     protected function sanitizeString($string)
@@ -77,6 +91,10 @@ class Sanitizer
         );
     }
 
+    /**
+     * @param array $array
+     * @return array
+     */
     protected function sanitizeArray($array)
     {
         if (!is_array($array)) {
@@ -97,6 +115,10 @@ class Sanitizer
         return $array;
     }
 
+    /**
+     * @param string $key
+     * @return bool
+     */
     protected function isSensitiveArrayKey($key)
     {
         $patterns = $this->getSensitiveKeyPatterns();
@@ -109,6 +131,9 @@ class Sanitizer
         return false;
     }
 
+    /**
+     * @return array
+     */
     protected function getSensitiveKeyPatterns()
     {
         if (!$this->sensitiveKeyPatterns) {
