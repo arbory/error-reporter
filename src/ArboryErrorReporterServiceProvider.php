@@ -23,6 +23,6 @@ class ErrorReporterServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->mergeConfigFrom(__DIR__ . '/config/error-reporter.php', 'error-reporter');
     }
 }
