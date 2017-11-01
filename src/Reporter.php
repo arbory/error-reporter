@@ -54,17 +54,22 @@ class Reporter
             'http_referer'      => array_get($_SERVER, 'HTTP_REFERER'),
             'user_agent'        => array_get($_SERVER, 'HTTP_REFERER'),
             'http_content_type' => array_get($_SERVER, 'CONTENT_TYPE'),
-            'http_cookie'       => array_get($_SERVER, 'HTTP_COOKIE')
+            'http_cookie'       => $this->removeSensitiveDataFromString(
+                array_get($_SERVER, 'HTTP_COOKIE'),
+                $this->sessionCookieKey)
         ];
 
-        $data['http_cookie'] = $this->removeSessionCookie($data['http_cookie']);
-        dd($data['http_cookie']);
         return $data;
     }
 
-    protected function removeSessionCookie($cookieString)
+    /**
+     * @param string $cookieString
+     * @param string $identifier
+     * @return string
+     */
+    protected function removeSensitiveDataFromString(string $cookieString, string $identifier)
     {
-        $pattern = '/(?<=\b' . $this->sessionCookieKey . '=)(.+)(\b)/U';
+        $pattern = '/(?<=\b' . $identifier . '=)(.+)(\b)/U';
         return preg_replace($pattern, $this->removedValueNotice, $cookieString);
     }
 }
