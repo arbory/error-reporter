@@ -67,7 +67,7 @@ class Reporter
             'http_referer'      => array_get($_SERVER, 'HTTP_REFERER'),
             'user_agent'        => array_get($_SERVER, 'HTTP_REFERER'),
             'http_content_type' => array_get($_SERVER, 'CONTENT_TYPE'),
-            'http_cookie'       => $this->sanitizer->sanitizeString(array_get($_SERVER, 'HTTP_COOKIE'))
+            'http_cookie'       => $this->sanitizer->sanitize(array_get($_SERVER, 'HTTP_COOKIE'))
         ];
 
         return $data;
@@ -89,7 +89,7 @@ class Reporter
             $key          = 'data_' . $global;
             $var          = '_' . strtoupper($global);
             $value        = array_get($GLOBALS, $var);
-            $return[$key] = $this->sanitizer->sanitizeArray($value);
+            $return[$key] = $this->sanitizer->sanitize($value);
         }
         return $return;
     }

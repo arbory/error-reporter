@@ -54,11 +54,21 @@ class Sanitizer
         return $this->removeValueNotification;
     }
 
+    public function sanitize($value)
+    {
+        if (is_string($value)) {
+            return $this->sanitizeString($value);
+        } elseif (is_array($value)) {
+            return $this->sanitizeArray($value);
+        }
+        return $value;
+    }
+
     /**
      * @param $string
      * @return string
      */
-    public function sanitizeString($string)
+    protected function sanitizeString($string)
     {
         return preg_replace(
             $this->getSensitiveStringPatterns(),
@@ -67,14 +77,7 @@ class Sanitizer
         );
     }
 
-    public function sanitizeArray($array)
-    {
-        $array = $this->removeSensitiveArrayValues($array);
-        return $array;
-    }
-
-
-    protected function removeSensitiveArrayValues($array)
+    protected function sanitizeArray($array)
     {
         if (!is_array($array)) {
             return $array;
@@ -87,7 +90,7 @@ class Sanitizer
             }
 
             if (is_array($value)) {
-                $array[$key] = self::removeSensitiveArrayValues($value);
+                $array[$key] = $this->sanitizeArray($value);
             }
         }
 
