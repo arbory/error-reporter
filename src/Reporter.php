@@ -53,7 +53,36 @@ class Reporter
             $requestParams   = $this->getRequestParams();
             $globalParams    = $this->getGlobalParams();
             $envParams       = $this->getEnvParams();
-            dd($envParams);
+
+            $this->send(
+                array_merge($exceptionParams, $requestParams, $globalParams, $envParams)
+            );
+        }
+    }
+
+    /**
+     * @param array $data
+     */
+    protected function send($data)
+    {
+        $apiUrl          = array_get($this->config, 'api_url');
+        $data['api_key'] = array_get($this->config, 'api_key');
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+        curl_setopt($ch, CURLOPT_URL, $apiUrl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 4);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_exec($ch);
+        if (curl_errno($ch)) {
+            $error = curl_error($ch);
+            trigger_error($error, E_USER_WARNING);
+        } else {
+            curl_close($ch);
         }
     }
 

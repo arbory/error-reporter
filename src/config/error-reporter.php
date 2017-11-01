@@ -1,10 +1,10 @@
 <?php
 return [
     'reporter' => [
-        'enabled'              => true,
-        'remote_reporting_url' => null,
-        'api_key'              => null,
-        'report_stack_trace'   => true
+        'enabled'            => true,
+        'api_url'            => null,
+        'api_key'            => null,
+        'report_stack_trace' => true
     ],
 
     'sanitizer' => [
