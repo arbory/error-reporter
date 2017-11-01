@@ -47,11 +47,13 @@ class Reporter
      */
     public function reportException(Exception $exception)
     {
-        $this->exception = $exception;
-        $exceptionParams = $this->getExceptionParams();
-        $requestParams   = $this->getRequestParams();
-        $globalParams    = $this->getGlobalParams();
-        dd($exceptionParams);
+        if ($this->isReportingEnabled()) {
+            $this->exception = $exception;
+            $exceptionParams = $this->getExceptionParams();
+            $requestParams   = $this->getRequestParams();
+            $globalParams    = $this->getGlobalParams();
+            dd($exceptionParams);
+        }
     }
 
     /**
@@ -108,5 +110,10 @@ class Reporter
     protected function shouldReportStackTrace()
     {
         return (bool)array_get($this->config, 'report_stack_trace', true);
+    }
+
+    protected function isReportingEnabled()
+    {
+        return (bool)array_get($this->config, 'enabled', false);
     }
 }
