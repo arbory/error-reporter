@@ -15,12 +15,22 @@ class Reporter
     protected $removedValueNotice = 'value_removed_by_leafError';
 
     /** @var string */
-    protected $sessionCookieKey;
+    protected $sessionCookieName;
+
+    protected $xsrfCookieName = 'XSRF-TOKEN';
+
+    protected $superGlobals = [
+        'GET',
+        'POST',
+        'COOKIE',
+        'SESSION',
+        'FILES'
+    ];
 
     public function __construct($config)
     {
-        $this->config           = $config;
-        $this->sessionCookieKey = config('session.cookie');
+        $this->config            = $config;
+        $this->sessionCookieName = config('session.cookie');
     }
 
     public function reportException(Exception $exception)
@@ -28,7 +38,8 @@ class Reporter
         $this->exception = $exception;
         $exceptionParams = $this->getExceptionParamsArray();
         $requestParams   = $this->getRequestParamsArray();
-        dd($requestParams);
+        $globalParams    = $this->getGlobalParamsArray();
+        dd($globalParams);
     }
 
     protected function getExceptionParamsArray()
@@ -56,11 +67,10 @@ class Reporter
             'http_content_type' => array_get($_SERVER, 'CONTENT_TYPE'),
             'http_cookie'       => $this->removeSensitiveDataFromString(
                 array_get($_SERVER, 'HTTP_COOKIE'), [
-                $this->sessionCookieKey,
-                'XSRF-TOKEN'
+                $this->sessionCookieName,
+                $this->xsrfCookieName
             ])
         ];
-
         return $data;
     }
 
@@ -79,7 +89,18 @@ class Reporter
             return '/(?<=\b' . $identifier . '=)(.+)(\b)/U';
         }, $identifiers);
 
-
         return preg_replace($patterns, $this->removedValueNotice, $string);
+    }
+
+    protected function getGlobalParamsArray()
+    {
+        $return = [];
+        foreach ($this->superGlobals as $global) {
+            $key          = 'data_' . $global;
+            $var          = '_' . strtoupper($global);
+            $value        = array_get($GLOBALS, $var);
+            $return[$key] = $value;
+        }
+        return $return;
     }
 }
