@@ -55,21 +55,31 @@ class Reporter
             'user_agent'        => array_get($_SERVER, 'HTTP_REFERER'),
             'http_content_type' => array_get($_SERVER, 'CONTENT_TYPE'),
             'http_cookie'       => $this->removeSensitiveDataFromString(
-                array_get($_SERVER, 'HTTP_COOKIE'),
-                $this->sessionCookieKey)
+                array_get($_SERVER, 'HTTP_COOKIE'), [
+                $this->sessionCookieKey,
+                'XSRF-TOKEN'
+            ])
         ];
 
         return $data;
     }
 
     /**
-     * @param string $cookieString
-     * @param string $identifier
+     * @param string       $string
+     * @param string|array $identifiers
      * @return string
      */
-    protected function removeSensitiveDataFromString($cookieString, $identifier)
+    protected function removeSensitiveDataFromString($string, $identifiers)
     {
-        $pattern = '/(?<=\b' . $identifier . '=)(.+)(\b)/U';
-        return preg_replace($pattern, $this->removedValueNotice, $cookieString);
+        if (is_string($identifiers)) {
+            $identifiers = [$identifiers];
+        }
+
+        $patterns = array_map(function ($identifier) {
+            return '/(?<=\b' . $identifier . '=)(.+)(\b)/U';
+        }, $identifiers);
+
+
+        return preg_replace($patterns, $this->removedValueNotice, $string);
     }
 }
