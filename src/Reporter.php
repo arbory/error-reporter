@@ -153,6 +153,18 @@ class Reporter
     {
         $basePath         = base_path();
         $revisionFilePath = $basePath . '/REVISION';
-        return file_exists($revisionFilePath) && is_readable($revisionFilePath) ? trim(file_get_contents($revisionFilePath)) : null;
+        return file_exists($revisionFilePath) && is_readable($revisionFilePath) ? trim(file_get_contents($revisionFilePath)) : $this->getGitRevision();
+    }
+
+    protected function getGitRevision()
+    {
+        $basePath = base_path();
+        $gitPath  = $basePath . '/.git';
+        if (file_exists($gitPath)) {
+            $command = 'cd ' . $basePath . ' && git rev-parse HEAD';
+            exec($command, $output, $return_var);
+            return $return_var === 0 ? trim(reset($output)) : null;
+        }
+        return null;
     }
 }
