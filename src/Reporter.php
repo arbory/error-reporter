@@ -67,7 +67,7 @@ class Reporter
     {
         $apiUrl          = array_get($this->config, 'api_url');
         $data['api_key'] = array_get($this->config, 'api_key');
-
+        
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
         curl_setopt($ch, CURLOPT_URL, $apiUrl);

@@ -2,8 +2,8 @@
 return [
     'reporter' => [
         'enabled'            => true,
-        'api_url'            => null,
-        'api_key'            => null,
+        'api_url'            => env('ERROR_REPORTER_API_URL'),
+        'api_key'            => env('ERROR_REPORTER_API_KEY'),
         'report_stack_trace' => true
     ],
 
