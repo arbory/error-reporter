@@ -112,7 +112,7 @@ class Reporter
     {
         return [
             'environment' => getenv('APP_ENV'),
-            'branch'      => $this->getGitBranch()
+            'branch'      => $this->getDeployedBranch()
         ];
     }
 
@@ -126,10 +126,25 @@ class Reporter
         return (bool)array_get($this->config, 'enabled', false);
     }
 
-    protected function getGitBranch()
+    protected function getDeployedBranch()
     {
         $basePath       = base_path();
-        $branchFilePath = $basePath . '/' . 'BRANCH';
-        return file_exists($branchFilePath) && is_readable($branchFilePath) ? trim(file_get_contents($branchFilePath)) : null;
+        $branchFilePath = $basePath . '/BRANCH';
+        return file_exists($branchFilePath) && is_readable($branchFilePath) ? trim(file_get_contents($branchFilePath)) : $this->getGitBranch();
+    }
+
+    protected function getGitBranch()
+    {
+        $basePath = base_path();
+        $gitPath  = $basePath . '/.git';
+        if (file_exists($gitPath)) {
+            $command = 'cd ' . $basePath . ' && git branch';
+            exec($command, $output, $return_var);
+            if ($return_var === 0) {
+                $output = preg_grep('/^\*/', $output);
+                return trim(substr(reset($output), 1));
+            }
+        }
+        return null;
     }
 }
