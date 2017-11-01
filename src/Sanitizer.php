@@ -4,9 +4,15 @@ namespace Arbory\ErrorReporter;
 
 class Sanitizer
 {
-    /** @var array */
+    /**
+     * @var array
+     * */
     protected $config;
-    protected $removedValueNotice = 'value_removed_by_leafError';
+
+    /**
+     * @var string
+     */
+    protected $removeValueNotification;
 
     /**
      * @var array
@@ -16,7 +22,6 @@ class Sanitizer
     public function __construct($config)
     {
         $this->config = $config;
-        $this->setSensitiveStringPatterns();
     }
 
     protected function setSensitiveStringPatterns()
@@ -28,8 +33,28 @@ class Sanitizer
         }, $identifiers);
     }
 
+    protected function getSensitiveStringPatterns()
+    {
+        if (!isset($this->sensitiveStringPatterns)) {
+            $this->setSensitiveStringPatterns();
+        }
+        return $this->sensitiveStringPatterns;
+    }
+
+    protected function getRemovedValueNotification()
+    {
+        if (!$this->removeValueNotification) {
+            $this->removeValueNotification = array_get($this->config, 'removed_value_notification');
+        }
+        return $this->removeValueNotification;
+    }
+
     public function sanitizeString($string)
     {
-        return preg_replace($this->sensitiveStringPatterns, $this->removedValueNotice, $string);
+        return preg_replace(
+            $this->getSensitiveStringPatterns(),
+            $this->getRemovedValueNotification(),
+            $string
+        );
     }
 }

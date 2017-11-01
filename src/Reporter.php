@@ -41,7 +41,7 @@ class Reporter
         $exceptionParams = $this->getExceptionParamsArray();
         $requestParams   = $this->getRequestParamsArray();
         $globalParams    = $this->getGlobalParamsArray();
-        dd($globalParams);
+        dd($requestParams);
     }
 
     protected function getExceptionParamsArray()
@@ -69,7 +69,7 @@ class Reporter
             'http_content_type' => array_get($_SERVER, 'CONTENT_TYPE'),
             'http_cookie'       => $this->sanitizer->sanitizeString(array_get($_SERVER, 'HTTP_COOKIE'))
         ];
-        
+
         return $data;
     }
 
