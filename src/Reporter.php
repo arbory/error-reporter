@@ -19,6 +19,9 @@ class Reporter
 
     protected $xsrfCookieName = 'XSRF-TOKEN';
 
+    /** @var Sanitizer */
+    protected $sanitizer;
+
     protected $superGlobals = [
         'GET',
         'POST',
@@ -30,6 +33,7 @@ class Reporter
     public function __construct($config)
     {
         $this->config            = $config;
+        $this->sanitizer         = resolve(Sanitizer::class);
         $this->sessionCookieName = config('session.cookie');
     }
 

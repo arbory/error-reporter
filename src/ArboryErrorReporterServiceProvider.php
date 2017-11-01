@@ -24,11 +24,18 @@ class ErrorReporterServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__ . '/config/error-reporter.php', 'error-reporter');
+
+        $this->app->singleton(Sanitizer::class, function ($app) {
+            $sanitizer = new Sanitizer(
+                config('error-reporter.sanitizer')
+            );
+            return $sanitizer;
+        });
+
         $this->app->singleton(Reporter::class, function ($app) {
-
-            $config   = config('error-reporter');
-            $reporter = new Reporter($config);
-
+            $reporter = new Reporter(
+                config('error-reporter')
+            );
             return $reporter;
         });
     }
