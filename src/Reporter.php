@@ -112,7 +112,8 @@ class Reporter
     {
         return [
             'environment' => getenv('APP_ENV'),
-            'branch'      => $this->getDeployedBranch()
+            'branch'      => $this->getDeployedBranch(),
+            'revision'    => $this->getDeployedRevision()
         ];
     }
 
@@ -146,5 +147,12 @@ class Reporter
             }
         }
         return null;
+    }
+
+    protected function getDeployedRevision()
+    {
+        $basePath         = base_path();
+        $revisionFilePath = $basePath . '/REVISION';
+        return file_exists($revisionFilePath) && is_readable($revisionFilePath) ? trim(file_get_contents($revisionFilePath)) : null;
     }
 }
