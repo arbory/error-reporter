@@ -34,7 +34,7 @@ class ErrorReporterServiceProvider extends ServiceProvider
 
         $this->app->singleton(Reporter::class, function ($app) {
             $reporter = new Reporter(
-                config('error-reporter')
+                config('error-reporter.reporter')
             );
             return $reporter;
         });
