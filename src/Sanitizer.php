@@ -2,6 +2,8 @@
 
 namespace Arbory\ErrorReporter;
 
+use Exception;
+
 class Sanitizer
 {
     /**
@@ -107,21 +109,18 @@ class Sanitizer
      */
     protected function sanitizeArrayValues($array)
     {
-        if (!is_array($array)) {
-            return $array;
-        }
+        if (is_array($array)) {
+            foreach ($array as $key => $value) {
+                if ($this->isSensitiveArrayKey($key)) {
+                    $array[$key] = $this->getRemovedValueNotification();
+                    continue;
+                }
 
-        foreach ($array as $key => $value) {
-            if ($this->isSensitiveArrayKey($key)) {
-                $array[$key] = $this->getRemovedValueNotification();
-                continue;
-            }
-
-            if (is_array($value)) {
-                $array[$key] = $this->sanitizeArray($value);
+                if (is_array($value)) {
+                    $array[$key] = $this->sanitizeArrayValues($value);
+                }
             }
         }
-
         return $array;
     }
 
