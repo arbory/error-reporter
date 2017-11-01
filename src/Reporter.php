@@ -12,6 +12,8 @@ class Reporter
     /** @var Exception */
     protected $exception;
 
+    protected $removedValueNotice = 'value_removed_by_leafError';
+
     public function __construct($config)
     {
         $this->config = $config;
@@ -37,7 +39,7 @@ class Reporter
 
     protected function getRequestParamsArray()
     {
-        return [
+        $data = [
             'user_ip'           => array_get($_SERVER, 'REMOTE_ADDR'),
             'user_forwarded_ip' => array_get($_SERVER, 'HTTP_X_FORWARDED_FOR'),
             'http_host'         => array_get($_SERVER, 'HTTP_HOST'),
@@ -49,5 +51,14 @@ class Reporter
             'http_content_type' => array_get($_SERVER, 'CONTENT_TYPE'),
             'http_cookie'       => array_get($_SERVER, 'HTTP_COOKIE')
         ];
+
+        $data['http_cookie'] = $this->removeSessionCookie($data['http_cookie']);
+    }
+
+    protected function removeSessionCookie($cookieString)
+    {
+        $sessionIdVar = 'laravel_session';
+        $pattern      = '/(?<=\b' . $sessionIdVar . '=)(.+)(\b)/U';
+        return preg_replace($pattern, $this->removedValueNotice, $cookieString);
     }
 }
