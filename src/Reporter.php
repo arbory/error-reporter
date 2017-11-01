@@ -48,9 +48,9 @@ class Reporter
     public function reportException(Exception $exception)
     {
         $this->exception = $exception;
-        $exceptionParams = $this->getExceptionParamsArray();
-        $requestParams   = $this->getRequestParamsArray();
-        $globalParams    = $this->getGlobalParamsArray();
+        $exceptionParams = $this->getExceptionParams();
+        $requestParams   = $this->getRequestParams();
+        $globalParams    = $this->getGlobalParams();
         dd($globalParams);
     }
 
