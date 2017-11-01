@@ -2,7 +2,8 @@
 return [
     'reporter' => [
         'remote_reporting_url' => null,
-        'api_key'              => null
+        'api_key'              => null,
+        'report_stack_trace'   => true
     ],
 
     'sanitizer' => [

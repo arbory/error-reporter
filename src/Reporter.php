@@ -51,7 +51,7 @@ class Reporter
         $exceptionParams = $this->getExceptionParams();
         $requestParams   = $this->getRequestParams();
         $globalParams    = $this->getGlobalParams();
-        dd($requestParams);
+        dd($exceptionParams);
     }
 
     /**
@@ -64,7 +64,7 @@ class Reporter
             'file'       => $this->exception->getFile(),
             'line'       => $this->exception->getLine(),
             'level'      => $this->exception->getCode(),
-            'stackTrace' => $this->exception->getTrace(),
+            'stackTrace' => $this->shouldReportStackTrace() ? $this->exception->getTrace() : null,
         ];
     }
 
@@ -103,5 +103,10 @@ class Reporter
             $return[$key] = $this->sanitizer->sanitize($value);
         }
         return $return;
+    }
+
+    protected function shouldReportStackTrace()
+    {
+        return (bool)array_get($this->config, 'report_stack_trace', true);
     }
 }
