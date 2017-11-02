@@ -1,6 +1,6 @@
 {
     "name": "arbory/error-reporter",
-    "description": "Reporting errors over HTTP to remote address",
+    "description": "Reporting exceptions over HTTP to remote address",
     "license": "MIT",
     "authors": [
         {
