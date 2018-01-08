@@ -13,4 +13,13 @@ ERROR_REPORTER_API_URL=xxx
 ERROR_REPORTER_API_KEY=yyy
 ```
 
-3. Override package [config default values](src/config/error-reporter.php) by creating a config file in `config/error-reporter.php`
+3. Register service provider in `config/app.php` 
+
+```
+'providers' => [
+
+
+   Arbory\ErrorReporter\ErrorReporterServiceProvider::class
+```
+
+4. Override package [config default values](src/config/error-reporter.php) by creating a config file in `config/error-reporter.php`
