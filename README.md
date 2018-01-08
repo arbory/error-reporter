@@ -22,4 +22,14 @@ ERROR_REPORTER_API_KEY=yyy
    Arbory\ErrorReporter\ErrorReporterServiceProvider::class
 ```
 
-4. Override package [config default values](src/config/error-reporter.php) by creating a config file in `config/error-reporter.php`
+4. Bind exception handler in `bootstrap/app.php`
+```
+$app->singleton(
+    Illuminate\Contracts\Debug\ExceptionHandler::class,
+    Arbory\ErrorReporter\Handler::class
+);
+
+```
+
+
+5. Override package [config default values](src/config/error-reporter.php) by creating a config file in `config/error-reporter.php`
