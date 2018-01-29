@@ -1,5 +1,5 @@
 {
-    "name": "arbory/error-reporter",
+    "name": "holystix/error-reporter",
     "description": "Reporting exceptions over HTTP to remote address",
     "license": "MIT",
     "authors": [
