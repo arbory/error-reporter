@@ -11,6 +11,8 @@
     "minimum-stability": "dev",
     "require": {},
     "autoload": {
-        "Arbory\\ErrorReporter": "src/"
+        "psr-4": {
+            "Arbory\\ErrorReporter": "src/"
+        }
     }
 }
