@@ -33,9 +33,11 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-        /** @var Reporter $reporter */
-        $reporter = resolve(Reporter::class);
-        $reporter->reportException($exception);
+        if ($this->shouldReport($exception)) {
+            /** @var Reporter $reporter */
+            $reporter = resolve(Reporter::class);
+            $reporter->reportException($exception);
+        }
 
         parent::report($exception);
     }
