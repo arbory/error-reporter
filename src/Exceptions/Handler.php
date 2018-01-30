@@ -1,11 +1,11 @@
 <?php
 
-namespace Arbory\ErrorReporter;
+namespace Holystix\ErrorReporter\Exceptions;
 
 use Exception;
+use Holystix\ErrorReporter\Reporter;
 use Illuminate\Auth\AuthenticationException;
 use App\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Support\Facades\App;
 
 class Handler extends ExceptionHandler
 {

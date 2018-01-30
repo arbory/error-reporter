@@ -1,6 +1,6 @@
 <?php
 
-namespace Arbory\ErrorReporter;
+namespace Holystix\ErrorReporter;
 
 use Illuminate\Support\ServiceProvider;
 
