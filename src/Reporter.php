@@ -95,7 +95,7 @@ class Reporter
             'file'       => $this->exception->getFile(),
             'line'       => $this->exception->getLine(),
             'level'      => $this->exception->getCode(),
-            'stackTrace' => $this->shouldReportStackTrace() ? $this->sanitizer->sanitize($this->exception->getTrace()) : null,
+            'stackTrace' => $this->shouldReportStackTrace() ? $this->sanitizer->sanitize($this->exception->getTraceAsString()) : null,
         ];
     }
 
