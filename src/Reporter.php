@@ -47,7 +47,7 @@ class Reporter
      */
     public function reportException(Exception $exception)
     {
-        if ($this->isReportingEnabled()) {
+        if ($this->isReportingEnabled() && $this->isReportingConfigured()) {
             $this->exception = $exception;
             $globalParams    = $this->getGlobalParams();
             $exceptionParams = $this->getExceptionParams();
@@ -80,7 +80,8 @@ class Reporter
         if (curl_errno($ch)) {
             $error = curl_error($ch);
             trigger_error($error, E_USER_WARNING);
-        } else {
+        }
+        else {
             curl_close($ch);
         }
     }
@@ -148,6 +149,11 @@ class Reporter
     protected function shouldReportStackTrace()
     {
         return (bool)array_get($this->config, 'report_stack_trace', true);
+    }
+
+    protected function isReportingConfigured()
+    {
+        return array_get($this->config, 'api_url') && array_get($this->config, 'api_key');
     }
 
     protected function isReportingEnabled()
