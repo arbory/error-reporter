@@ -3,7 +3,7 @@
 1. Require package
 
 ```
-composer require holystix/error-reporter
+composer require cube-agency/error-reporter
 ```
 
 2. Update .env file with relevant API url and key
