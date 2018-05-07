@@ -26,7 +26,7 @@ ERROR_REPORTER_API_KEY=yyy
 ```
 $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
-    CubeAgency\ErrorReporter\Handler::class
+    CubeAgency\ErrorReporter\Exceptions\Handler::class
 );
 
 ```
