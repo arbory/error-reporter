@@ -19,14 +19,14 @@ ERROR_REPORTER_API_KEY=yyy
 'providers' => [
 
 
-   Holystix\ErrorReporter\ErrorReporterServiceProvider::class
+   CubeAgency\ErrorReporter\ErrorReporterServiceProvider::class
 ```
 
 4. Bind exception handler in `bootstrap/app.php`
 ```
 $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
-    Holystix\ErrorReporter\Handler::class
+    CubeAgency\ErrorReporter\Handler::class
 );
 
 ```

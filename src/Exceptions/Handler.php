@@ -1,9 +1,9 @@
 <?php
 
-namespace Holystix\ErrorReporter\Exceptions;
+namespace CubeAgency\ErrorReporter\Exceptions;
 
 use Exception;
-use Holystix\ErrorReporter\Reporter;
+use CubeAgency\ErrorReporter\Reporter;
 use Illuminate\Auth\AuthenticationException;
 use App\Exceptions\Handler as ExceptionHandler;
 

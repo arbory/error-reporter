@@ -1,6 +1,6 @@
 <?php
 
-namespace Holystix\ErrorReporter;
+namespace CubeAgency\ErrorReporter;
 
 class Sanitizer
 {
