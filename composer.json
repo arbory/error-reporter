@@ -14,5 +14,12 @@
         "psr-4": {
             "CubeAgency\\ErrorReporter\\": "src/"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "CubeAgency\\ErrorReporter\\ErrorReporterServiceProvider"
+            ]
+        }
     }
 }
