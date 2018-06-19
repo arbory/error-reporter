@@ -13,7 +13,7 @@ ERROR_REPORTER_API_URL=xxx
 ERROR_REPORTER_API_KEY=yyy
 ```
 
-3. Register service provider in `config/app.php` 
+3. Register service provider in `config/app.php` (for Laravel 5.4 and older )
 
 ```
 'providers' => [
